@@ -37,7 +37,7 @@ RUN apk add --no-cache \
 
 # Configurar y compilar extensiones de PHP necesarias para Laravel
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
+    && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
 
 # Copiar configuración de Nginx
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
