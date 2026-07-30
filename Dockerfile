@@ -11,7 +11,11 @@ RUN npm run build
 # ==========================================
 # Etapa 2: Composer (Dependencias de PHP)
 # ==========================================
-FROM composer:2.7 AS composer-builder
+FROM php:8.4-cli-alpine AS composer-builder
+# Instalar Composer
+RUN apk add --no-cache curl \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --ignore-platform-reqs --no-scripts --prefer-dist
@@ -21,7 +25,7 @@ RUN composer dump-autoload --optimize
 # ==========================================
 # Etapa 3: Producción (PHP-FPM + Nginx)
 # ==========================================
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Instalar Nginx y dependencias de sistema
 RUN apk add --no-cache \
