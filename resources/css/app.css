@@ -1,9 +1,164 @@
-@import 'tailwindcss';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --bg-dark: #0f172a;          /* Slate 900 - Fondo ultra oscuro premium */
+    --bg-panel: #1e293b;         /* Slate 800 - Paneles */
+    --bg-panel-light: #334155;   /* Slate 700 - Hover de paneles */
+    
+    --accent-primary: #06b6d4;   /* Cyan 500 - Primario vibrante */
+    --accent-primary-hover: #0891b2; 
+    --accent-indigo: #6366f1;    /* Indigo 500 - Secundario moderno */
+    
+    --text-main: #f8fafc;        /* Slate 50 */
+    --text-muted: #94a3b8;       /* Slate 400 */
+    
+    --border-light: rgba(255, 255, 255, 0.08);
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+[data-bs-theme="light"] {
+    --bg-dark: #f8fafc;
+    --bg-panel: #ffffff;
+    --bg-panel-light: #f1f5f9;
+    
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    --border-light: rgba(0, 0, 0, 0.1);
+}
+
+/* Overrides para Light Mode sobre clases quemadas de Bootstrap */
+[data-bs-theme="light"] .text-white { color: #0f172a !important; }
+[data-bs-theme="light"] .badge.text-white, 
+[data-bs-theme="light"] .btn.text-white { color: #ffffff !important; }
+
+[data-bs-theme="light"] .bg-dark { background-color: #f1f5f9 !important; }
+[data-bs-theme="light"] .glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+[data-bs-theme="light"] .glass-panel:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.15);
+}
+[data-bs-theme="light"] .dropdown-menu-dark {
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+[data-bs-theme="light"] .dropdown-menu-dark .dropdown-item { color: #0f172a; }
+[data-bs-theme="light"] .dropdown-menu-dark .dropdown-item:hover { background-color: #f1f5f9; }
+[data-bs-theme="light"] .dropdown-divider { border-color: rgba(0,0,0,0.1); }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Classes (Modernizadas) */
+.glass-panel {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+    border-color: rgba(6, 182, 212, 0.3); /* Brillo cyan sutil */
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Texto y Colores Utilitarios */
+.text-primary-accent { color: var(--accent-primary) !important; }
+.bg-primary-accent { background-color: var(--accent-primary) !important; color: #fff !important; }
+
+/* Formularios Premium */
+.form-control, .form-select {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-main) !important;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15) !important;
+}
+
+[data-bs-theme="light"] .form-control, 
+[data-bs-theme="light"] .form-select {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    color: #0f172a !important;
+}
+[data-bs-theme="light"] .form-control:focus, 
+[data-bs-theme="light"] .form-select:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.25) !important;
+}
+
+/* Tablas de Alta Densidad (High-Density) */
+.table-dense {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-main);
+    margin-bottom: 0;
+}
+.table-dense th, .table-dense td {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+    vertical-align: middle !important;
+    border-color: var(--border-light);
+}
+.table-dense th {
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem !important;
+    background-color: rgba(15, 23, 42, 0.8) !important;
+}
+.table-dense tbody tr {
+    transition: background-color 0.2s ease;
+}
+.table-dense tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Botones Premium */
+.btn-primary-accent {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-indigo));
+    border: none;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    transition: all 0.3s ease;
+}
+.btn-primary-accent:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    color: white !important;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--bg-panel-light);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
 }

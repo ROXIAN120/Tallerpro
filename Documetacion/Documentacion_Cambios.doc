@@ -1,0 +1,73 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Documentación de Cambios</title>
+<style>
+    body { font-family: 'Calibri', sans-serif; line-height: 1.6; }
+    h1 { color: #2c3e50; }
+    h2 { color: #34495e; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    h3 { color: #e67e22; }
+    ul { margin-bottom: 20px; }
+    .code { background-color: #f4f4f4; padding: 10px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 14px;}
+    .important { font-weight: bold; color: #c0392b; }
+</style>
+</head>
+<body>
+
+    <h1>Documentación Técnica: Sistema de Gestión de Servicios Automotrices</h1>
+    <p><strong>Autor:</strong> ACT3 - Rodrigo Ledezma Sanchez</p>
+    <p><strong>Fecha de actualización:</strong> Julio de 2026</p>
+
+    <h2>1. Resumen de los Cambios Realizados</h2>
+    <p>Se ha refactorizado la estructura de la aplicación para mejorar la experiencia de usuario y preparar el sistema para su conexión con la base de datos real. Específicamente, se eliminó el uso de "Modales" (ventanas emergentes) en la pantalla de bienvenida y se reemplazó por <strong>pantallas 100% independientes y responsivas</strong>.</p>
+    
+    <ul>
+        <li><strong>Migración de datos simulados (Mocks):</strong> Se movió la data de prueba desde el frontend (React) hacia el backend (Controlador de Laravel), simulando el comportamiento real de una base de datos.</li>
+        <li><strong>Diseño Responsivo:</strong> Las nuevas pantallas se adaptan automáticamente a dispositivos móviles (celulares) y monitores de escritorio usando el sistema de grillas.</li>
+        <li><strong>Interfaz Limpia:</strong> Se removieron las credenciales académicas temporales (badges de estudiante/docente) de la interfaz de usuario para darle un acabado más profesional y limpio al producto final.</li>
+    </ul>
+
+    <h2>2. Ubicación y Estructura de las Rutas</h2>
+    <p>Las rutas principales están definidas en el backend (Laravel) y conectadas con las vistas de React mediante Inertia.js.</p>
+    
+    <h3>Rutas Backend (Laravel)</h3>
+    <p>Ubicación del archivo: <span class="code">routes/web.php</span></p>
+    <ul>
+        <li><strong>/</strong> : Ruta raíz. Muestra la pantalla principal con los botones de acceso.</li>
+        <li><strong>/ordenes</strong> : (GET) Ejecuta el método <span class="code">index</span> del controlador para mostrar el listado completo de órdenes de trabajo.</li>
+        <li><strong>/ordenes/nueva</strong> : (GET) Ejecuta el método <span class="code">create</span> del controlador para mostrar el formulario de registro de una nueva orden.</li>
+    </ul>
+
+    <h3>Controlador (Laravel)</h3>
+    <p>Ubicación del archivo: <span class="code">app/Http/Controllers/WorkOrderController.php</span></p>
+    <p>Este controlador es el encargado de proveer los datos a las vistas y redirigir a los componentes correctos de React (Inertia).</p>
+
+    <h3>Vistas Frontend (React)</h3>
+    <ul>
+        <li><span class="code">resources/js/pages/welcome.tsx</span> : Pantalla principal de bienvenida. Ahora contiene enlaces limpios sin sobrecarga de estado.</li>
+        <li><span class="code">resources/js/pages/WorkOrders/Index.tsx</span> : Nueva pantalla que muestra la lista interactiva de órdenes activas (con buscador y filtros).</li>
+        <li><span class="code">resources/js/pages/WorkOrders/Create.tsx</span> : Nueva pantalla que contiene el formulario estructurado para registrar una nueva orden (con autocompletado y validaciones).</li>
+    </ul>
+
+    <h2>3. ¿Cómo levantar el servidor para desarrollo?</h2>
+    <p>Para ejecutar el proyecto en tu entorno local y ver los cambios en tiempo real, es necesario levantar dos servicios simultáneamente (en dos consolas/terminales separadas):</p>
+    
+    <h3>Terminal 1: El Servidor de Backend (Laravel)</h3>
+    <p>Este servidor procesa las rutas, los controladores y (próximamente) la conexión a la base de datos MySQL.</p>
+    <div class="code">
+        php artisan serve
+    </div>
+    <p><em>El proyecto estará disponible en http://localhost:8000</em></p>
+
+    <h3>Terminal 2: El Servidor de Frontend (Vite / React)</h3>
+    <p>Dado que los permisos de PowerShell suelen estar restringidos por defecto en Windows, debes ejecutar el siguiente comando para arrancar el compilador en vivo (Hot Module Replacement) sin errores de seguridad:</p>
+    <div class="code">
+        powershell -ExecutionPolicy Bypass -Command "npm run dev"
+    </div>
+    <p class="important">Nota: Mientras esta terminal esté corriendo, cualquier cambio que hagas en el código de React (.tsx) se verá reflejado inmediatamente en tu navegador sin necesidad de recargar la página (F5).</p>
+
+    <h2>4. Siguientes Pasos (Roadmap)</h2>
+    <p>Una vez confirmada la funcionalidad de la estructura de vistas, el siguiente paso técnico es implementar las <strong>Migraciones</strong> de Laravel para generar las 21 tablas de la base de datos relacional (Clientes, Vehículos, Servicios, etc.) y reemplazar los datos simulados por consultas reales mediante Eloquent ORM.</p>
+
+</body>
+</html>

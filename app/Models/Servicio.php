@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Servicio extends Model
 {
     protected $fillable = [
+        'categoria_servicio_id',
         'nombre',
         'descripcion',
-        'precio',
-        'duracion_estimada',
-        'estado',
-        'user_id'
+        'precioBase',
+        'tiempoEstimadoHoras'
     ];
 
-    public function user()
+    public function categoria()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(CategoriaServicio::class, 'categoria_servicio_id');
     }
 }
