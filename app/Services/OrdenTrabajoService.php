@@ -203,8 +203,16 @@ class OrdenTrabajoService
             // Obtener el primer detalle de la orden para asociarlo
             $detalle = $orden->detalles()->first();
             if (!$detalle) {
-                // Si no hay detalle, creamos uno genérico
-                $servicio = Servicio::firstOrCreate(['nombre' => 'Mantenimiento General'], ['precioBase' => 0, 'categoria_id' => 1]);
+                $categoriaServicio = \App\Models\CategoriaServicio::firstOrCreate(['nombre' => 'General']);
+                $servicio = Servicio::firstOrCreate(
+                    ['nombre' => 'Venta de Repuestos (Sin Mano de Obra)'], 
+                    [
+                        'descripcion' => 'Servicio genérico para cobro de repuestos sin mano de obra',
+                        'precioBase' => 0, 
+                        'categoria_servicio_id' => $categoriaServicio->id,
+                        'tiempoEstimadoHoras' => 0
+                    ]
+                );
                 $detalle = DetalleOrdenTrabajo::create([
                     'orden_trabajo_id' => $orden->id,
                     'servicio_id' => $servicio->id,
