@@ -25,7 +25,6 @@ class RepuestoController extends Controller
                     'id' => $repuesto->id,
                     'codigoBarras' => $repuesto->codigoBarras,
                     'nombre' => $repuesto->nombre,
-                    'descripcion' => $repuesto->descripcion,
                     'categoria_id' => $repuesto->categoria_repuesto_id,
                     'categoria' => $repuesto->categoria->nombre ?? 'N/A',
                     'proveedor_id' => $repuesto->proveedor_id,
@@ -61,7 +60,6 @@ class RepuestoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'codigoBarras' => 'required|string|max:100|unique:repuestos,codigoBarras',
-            'descripcion' => 'nullable|string',
             'categoria_id' => 'required|exists:categorias_repuestos,id',
             'proveedor_id' => 'required|exists:proveedores,id',
             'costo' => 'required|numeric|min:0',
@@ -74,7 +72,6 @@ class RepuestoController extends Controller
             $repuesto = Repuesto::create([
                 'nombre' => $validated['nombre'],
                 'codigoBarras' => $validated['codigoBarras'],
-                'descripcion' => $validated['descripcion'],
                 'categoria_repuesto_id' => $validated['categoria_id'],
                 'proveedor_id' => $validated['proveedor_id'],
                 'costo' => $validated['costo'],
@@ -113,7 +110,6 @@ class RepuestoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'codigoBarras' => 'required|string|max:100|unique:repuestos,codigoBarras,' . $id,
-            'descripcion' => 'nullable|string',
             'categoria_id' => 'required|exists:categorias_repuestos,id',
             'proveedor_id' => 'required|exists:proveedores,id',
             'costo' => 'required|numeric|min:0',
@@ -124,7 +120,6 @@ class RepuestoController extends Controller
         $repuesto->update([
             'nombre' => $validated['nombre'],
             'codigoBarras' => $validated['codigoBarras'],
-            'descripcion' => $validated['descripcion'],
             'categoria_repuesto_id' => $validated['categoria_id'],
             'proveedor_id' => $validated['proveedor_id'],
             'costo' => $validated['costo'],
