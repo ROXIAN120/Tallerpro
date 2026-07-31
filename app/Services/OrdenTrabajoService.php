@@ -111,9 +111,25 @@ class OrdenTrabajoService
             ['marca_vehiculo_id' => $marca->id, 'nombre' => $modeloName]
         );
 
+        $placa = strtoupper(trim($data['vehiculo_placa']));
+
+        // Validar que el vehículo no tenga ya una orden activa
+        $vehiculoExistente = Vehiculo::where('placa', $placa)->first();
+        if ($vehiculoExistente) {
+            $tieneOrdenActiva = OrdenTrabajo::where('vehiculo_id', $vehiculoExistente->id)
+                ->whereIn('estado', ['PENDIENTE', 'DIAGNOSTICO', 'EN REPARACION'])
+                ->exists();
+
+            if ($tieneOrdenActiva) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'vehiculo_placa' => 'Este vehículo ya tiene una orden de trabajo en curso. Finalice la orden actual antes de crear una nueva.'
+                ]);
+            }
+        }
+
         // 3. Obtener o crear Vehículo
         $vehiculo = Vehiculo::firstOrCreate(
-            ['placa' => strtoupper($data['vehiculo_placa'])],
+            ['placa' => $placa],
             [
                 'cliente_id' => $cliente->id,
                 'modelo_vehiculo_id' => $modelo->id,
