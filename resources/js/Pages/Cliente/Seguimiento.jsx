@@ -162,7 +162,7 @@ export default function Seguimiento({ ordenData, error }) {
                                             </div>
                                         </div>
 
-                                        <div className="text-center mt-5 p-4 rounded-4 bg-white bg-opacity-5 border border-white border-opacity-10">
+                                        <div className="text-center mt-5 p-4 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-10">
                                             <p className="text-white fs-5 mb-0 fw-light">
                                                 {ordenData.progreso === 0 && <><i className="bi bi-info-circle text-primary-accent me-2"></i> Su vehículo ha sido ingresado al sistema y aguarda asignación de bahía.</>}
                                                 {ordenData.progreso === 50 && <><i className="bi bi-gear-wide-connected text-primary-accent me-2 spin-slow"></i> Nuestros especialistas se encuentran operando su vehículo en este momento.</>}
