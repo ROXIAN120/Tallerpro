@@ -167,10 +167,10 @@ export default function Servicios({ categorias, servicios, flash }) {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label className="form-label small text-muted">Tiempo Estimado (Horas)</label>
+                                    <label className="form-label small text-muted">Tiempo Estimado</label>
                                     <input 
-                                        type="number" 
-                                        step="0.5"
+                                        type="text" 
+                                        placeholder="ej: 1.5 horas, 30 min, Indefinido"
                                         className="form-control bg-body text-body"
                                         value={formServ.data.tiempoEstimadoHoras}
                                         onChange={e => formServ.setData('tiempoEstimadoHoras', e.target.value)}
@@ -231,7 +231,7 @@ export default function Servicios({ categorias, servicios, flash }) {
                                                 <td className="text-body fw-semibold">{serv.nombre}</td>
                                                 <td><span className="badge bg-secondary">{serv.categoria?.nombre}</span></td>
                                                 <td className="text-end fw-bold text-success">Bs. {parseFloat(serv.precioBase).toFixed(2)}</td>
-                                                <td className="text-center text-muted">{parseFloat(serv.tiempoEstimadoHoras)} h</td>
+                                                <td className="text-center text-muted">{serv.tiempoEstimadoHoras}</td>
                                                 <td className="text-center">
                                                     <button onClick={() => editServ(serv)} className="btn btn-sm btn-outline-secondary border-0 p-0 px-2 text-primary-accent mx-1"><i className="bi bi-pencil-square"></i></button>
                                                     <Link href={`/taller/servicios/${serv.id}`} method="delete" as="button" className="btn btn-sm btn-outline-danger border-0 p-0 px-2 mx-1"><i className="bi bi-trash"></i></Link>

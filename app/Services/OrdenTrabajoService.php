@@ -161,7 +161,7 @@ class OrdenTrabajoService
 
         $servicio = Servicio::firstOrCreate(
             ['nombre' => 'Mantenimiento General'],
-            ['descripcion' => 'Revisión y mantenimiento general del vehículo', 'precioBase' => 150.00, 'categoria_servicio_id' => $categoriaServicio->id, 'tiempoEstimadoHoras' => 1]
+            ['descripcion' => 'Revisión y mantenimiento general del vehículo', 'precioBase' => 150.00, 'categoria_servicio_id' => $categoriaServicio->id, 'tiempoEstimadoHoras' => '1 hora']
         );
 
         DetalleOrdenTrabajo::create([
@@ -210,7 +210,7 @@ class OrdenTrabajoService
                         'descripcion' => 'Servicio genérico para cobro de repuestos sin mano de obra',
                         'precioBase' => 0, 
                         'categoria_servicio_id' => $categoriaServicio->id,
-                        'tiempoEstimadoHoras' => 0
+                        'tiempoEstimadoHoras' => 'Indefinido'
                     ]
                 );
                 $detalle = DetalleOrdenTrabajo::create([

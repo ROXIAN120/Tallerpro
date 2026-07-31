@@ -132,8 +132,8 @@ export default function Seguimiento({ ordenData, error }) {
                                             <div>
                                                 <span className="badge bg-dark border border-secondary text-light px-3 py-2 rounded-pill fs-6">
                                                     <i className="bi bi-stopwatch me-2 text-primary-accent"></i>
-                                                    {ordenData.tiempo_estimado > 0 
-                                                        ? `Tiempo estimado: ${ordenData.tiempo_estimado} ${ordenData.tiempo_estimado === 1 ? 'hora' : 'horas'}` 
+                                                    {ordenData.tiempo_estimado 
+                                                        ? `Tiempo estimado: ${ordenData.tiempo_estimado}` 
                                                         : 'Tiempo indefinido'}
                                                 </span>
                                             </div>

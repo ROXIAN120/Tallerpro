@@ -49,16 +49,12 @@ class SeguimientoClienteController extends Controller
         }
 
         $servicioPrincipal = 'Mantenimiento General';
-        $tiempoTotal = 0;
+        $tiempoTotal = null;
         if ($orden->detalles && $orden->detalles->count() > 0) {
             $primerServicio = $orden->detalles->first()->servicio;
             if ($primerServicio) {
                 $servicioPrincipal = $primerServicio->nombre;
-            }
-            foreach ($orden->detalles as $detalle) {
-                if ($detalle->servicio) {
-                    $tiempoTotal += (float) $detalle->servicio->tiempoEstimadoHoras;
-                }
+                $tiempoTotal = $primerServicio->tiempoEstimadoHoras;
             }
         }
 

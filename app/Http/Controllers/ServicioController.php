@@ -63,7 +63,7 @@ class ServicioController extends Controller
             'categoria_servicio_id' => 'required|exists:categorias_servicios,id',
             'descripcion' => 'nullable|string',
             'precioBase' => 'required|numeric|min:0',
-            'tiempoEstimadoHoras' => 'required|numeric|min:0',
+            'tiempoEstimadoHoras' => 'nullable|string|max:100',
         ]);
 
         Servicio::create($validated);
@@ -78,7 +78,7 @@ class ServicioController extends Controller
             'categoria_servicio_id' => 'required|exists:categorias_servicios,id',
             'descripcion' => 'nullable|string',
             'precioBase' => 'required|numeric|min:0',
-            'tiempoEstimadoHoras' => 'required|numeric|min:0',
+            'tiempoEstimadoHoras' => 'nullable|string|max:100',
         ]);
 
         $servicio = Servicio::findOrFail($id);
