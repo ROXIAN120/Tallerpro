@@ -49,8 +49,17 @@ class SeguimientoClienteController extends Controller
         }
 
         $servicioPrincipal = 'Mantenimiento General';
-        if ($orden->detalles && $orden->detalles->count() > 0 && $orden->detalles->first()->servicio) {
-            $servicioPrincipal = $orden->detalles->first()->servicio->nombre;
+        $tiempoTotal = 0;
+        if ($orden->detalles && $orden->detalles->count() > 0) {
+            $primerServicio = $orden->detalles->first()->servicio;
+            if ($primerServicio) {
+                $servicioPrincipal = $primerServicio->nombre;
+            }
+            foreach ($orden->detalles as $detalle) {
+                if ($detalle->servicio) {
+                    $tiempoTotal += (float) $detalle->servicio->tiempoEstimadoHoras;
+                }
+            }
         }
 
         // 3. Mapear estado al Timeline del frontend
@@ -70,6 +79,7 @@ class SeguimientoClienteController extends Controller
             'placa' => $vehiculo->placa,
             'cliente' => $orden->cliente->nombre ?? 'Estimado Cliente',
             'servicio' => $servicioPrincipal,
+            'tiempo_estimado' => $tiempoTotal,
             'estado' => $estadoVisual,
             'progreso' => $progreso,
             'fecha' => $orden->created_at ? $orden->created_at->format('d/m/Y') : date('d/m/Y')

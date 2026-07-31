@@ -128,7 +128,15 @@ export default function Seguimiento({ ordenData, error }) {
                                     <div className="p-4 p-md-5 bg-panel-dark">
                                         <div className="text-center mb-5">
                                             <h5 className="text-muted fw-normal mb-2">Servicio Actual</h5>
-                                            <h3 className="text-white fw-bold bg-clip-text text-transparent bg-gradient-primary d-inline-block">{ordenData.servicio}</h3>
+                                            <h3 className="text-white fw-bold bg-clip-text text-transparent bg-gradient-primary d-inline-block mb-3">{ordenData.servicio}</h3>
+                                            <div>
+                                                <span className="badge bg-dark border border-secondary text-light px-3 py-2 rounded-pill fs-6">
+                                                    <i className="bi bi-stopwatch me-2 text-primary-accent"></i>
+                                                    {ordenData.tiempo_estimado > 0 
+                                                        ? `Tiempo estimado: ${ordenData.tiempo_estimado} ${ordenData.tiempo_estimado === 1 ? 'hora' : 'horas'}` 
+                                                        : 'Tiempo indefinido'}
+                                                </span>
+                                            </div>
                                         </div>
 
                                         <div className="position-relative mt-5 mb-4 px-3 px-md-5">
