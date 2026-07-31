@@ -94,3 +94,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/orden/{id}/pdf', [\App\Http\Controllers\ReporteController::class, 'descargarFactura'])->name('reportes.factura');
     });
 });
+
+// Webhook para Evolution API (WhatsApp) - Ruta Pública
+Route::post('/api/whatsapp/webhook', [\App\Http\Controllers\WhatsAppWebhookController::class, 'handle']);
+
+// Módulo de Chat WhatsApp
+Route::middleware(['auth', 'role:Administrador,Recepcionista'])->group(function () {
+    Route::get('/chat', [\App\Http\Controllers\ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/status', [\App\Http\Controllers\ChatController::class, 'status']);
+    Route::get('/chat/qr', [\App\Http\Controllers\ChatController::class, 'qr'])->name('chat.qr');
+    Route::post('/chat/logout', [\App\Http\Controllers\ChatController::class, 'logout'])->name('chat.logout');
+    Route::post('/chat/send', [\App\Http\Controllers\ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::post('/chat/start', [\App\Http\Controllers\ChatController::class, 'startChat'])->name('chat.start');
+    Route::post('/chat/campaign', [\App\Http\Controllers\ChatController::class, 'sendCampaign'])->name('chat.campaign');
+    Route::post('/chat/etiquetas', [\App\Http\Controllers\ChatController::class, 'updateEtiquetas'])->name('chat.etiquetas');
+});

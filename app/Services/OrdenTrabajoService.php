@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class OrdenTrabajoService
 {
+    protected WhatsAppService $whatsappService;
+
+    public function __construct(WhatsAppService $whatsappService)
+    {
+        $this->whatsappService = $whatsappService;
+    }
+
     /**
      * Obtiene las órdenes con relaciones y las mapea en formato Kanban.
      */
@@ -68,7 +75,7 @@ class OrdenTrabajoService
      */
     public function cambiarEstado(int $id, string $nuevoEstado)
     {
-        $orden = OrdenTrabajo::findOrFail($id);
+        $orden = OrdenTrabajo::with(['cliente', 'vehiculo'])->findOrFail($id);
         
         if ($nuevoEstado === 'EN PROCESO') {
             $orden->estado = 'EN REPARACION';
@@ -76,9 +83,32 @@ class OrdenTrabajoService
                 $orden->hora_inicio = now();
             }
         } elseif ($nuevoEstado === 'FINALIZADO') {
+            // Solo notificamos si la orden NO estaba ya finalizada
+            $enviarNotificacion = ($orden->estado !== 'FINALIZADO');
+            
             $orden->estado = 'FINALIZADO';
             if (!$orden->hora_fin) {
                 $orden->hora_fin = now();
+            }
+            
+            if ($enviarNotificacion) {
+                try {
+                    $telefono = $orden->cliente->telefono;
+                    if ($telefono) {
+                        // Limpiar espacios o guiones
+                        $telefono = preg_replace('/[^0-9]/', '', $telefono);
+                        
+                        // Si el número tiene 8 dígitos, asumimos que es de Bolivia y le agregamos 591
+                        if (strlen($telefono) === 8) {
+                            $telefono = '591' . $telefono;
+                        }
+
+                        $mensaje = "¡Hola *{$orden->cliente->nombreCompleto}*! 🚗\n\nTe informamos que el mantenimiento de tu vehículo con placa *{$orden->vehiculo->placa}* ha sido *FINALIZADO* exitosamente y está listo para que pases a recogerlo.\n\n📍 *Ubicación del taller:*\nhttps://www.google.com/maps/place/17%C2%B045'31.2%22S+63%C2%B011'14.0%22W/@-17.758655,-63.18722,16z/data=!4m4!3m3!8m2!3d-17.7586549!4d-63.1872202?hl=es\n\n¡Te esperamos!";
+                        $this->whatsappService->sendMessage($telefono, $mensaje);
+                    }
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Error al notificar por WhatsApp: " . $e->getMessage());
+                }
             }
         } elseif ($nuevoEstado === 'PENDIENTE') {
             $orden->estado = 'PENDIENTE';
@@ -93,6 +123,13 @@ class OrdenTrabajoService
      */
     public function crearOrden(array $data)
     {
+        // Limpiar y formatear el teléfono del cliente para asegurar el prefijo boliviano
+        $telefono = preg_replace('/[^0-9]/', '', $data['cliente_telefono']);
+        if (strlen($telefono) === 8) {
+            $telefono = '591' . $telefono;
+        }
+        $data['cliente_telefono'] = $telefono;
+
         // 1. Obtener o crear Cliente
         $cliente = Cliente::firstOrCreate(
             ['telefono' => $data['cliente_telefono']],

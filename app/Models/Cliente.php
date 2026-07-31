@@ -10,5 +10,10 @@ class Cliente extends Model {
         'ci',
         'telefono',
         'direccion',
+        'etiquetas',
+    ];
+
+    protected $casts = [
+        'etiquetas' => 'array',
     ];
 }

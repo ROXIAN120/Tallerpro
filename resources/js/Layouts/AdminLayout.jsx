@@ -33,6 +33,7 @@ export default function AdminLayout({ children }) {
         { name: 'Kardex', path: '/inventario/kardex', icon: 'bi-box-seam-fill', show: isAdmin || isMecanico },
         { name: 'Finanzas', path: '/reportes/dashboard', icon: 'bi-pie-chart-fill', show: isAdmin },
         { name: 'Portal Cliente', path: '/seguimiento', icon: 'bi-globe', show: true },
+        { name: 'WhatsApp', path: '/chat', icon: 'bi-whatsapp', show: true },
     ].filter(item => item.show);
 
     return (

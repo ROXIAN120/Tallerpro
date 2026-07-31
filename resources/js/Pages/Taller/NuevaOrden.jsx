@@ -85,16 +85,19 @@ export default function NuevaOrden() {
                                     {errors.cliente_nombre && <div className="invalid-feedback">{errors.cliente_nombre}</div>}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label text-muted small fw-semibold">Teléfono *</label>
-                                    <input 
-                                        type="text" 
-                                        className={`form-control bg-dark text-white border-secondary ${errors.cliente_telefono ? 'is-invalid' : ''}`}
-                                        value={data.cliente_telefono}
-                                        onChange={e => setData('cliente_telefono', e.target.value)}
-                                        placeholder="Ej: 71234567"
-                                        required
-                                    />
-                                    {errors.cliente_telefono && <div className="invalid-feedback">{errors.cliente_telefono}</div>}
+                                    <label className="form-label text-muted small fw-semibold">Teléfono (WhatsApp) *</label>
+                                    <div className="input-group">
+                                        <span className="input-group-text bg-dark text-muted border-secondary border-end-0">+591</span>
+                                        <input 
+                                            type="text" 
+                                            className={`form-control bg-dark text-white border-secondary border-start-0 ${errors.cliente_telefono ? 'is-invalid' : ''}`}
+                                            value={data.cliente_telefono}
+                                            onChange={e => setData('cliente_telefono', e.target.value)}
+                                            placeholder="Ej: 71234567"
+                                            required
+                                        />
+                                    </div>
+                                    {errors.cliente_telefono && <div className="text-danger small mt-1">{errors.cliente_telefono}</div>}
                                 </div>
                                 <div className="col-md-12">
                                     <label className="form-label text-muted small fw-semibold">Correo Electrónico</label>
